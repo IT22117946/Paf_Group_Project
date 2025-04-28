@@ -17,7 +17,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+//abc
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
