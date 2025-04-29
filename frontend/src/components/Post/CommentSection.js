@@ -182,6 +182,19 @@ const handleAddComment = async () => {
 
   return (
     <div className="comment-section">
+
+
+      <div className="comment-input-wrapper">
+    <textarea 
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+        className="comment-input"
+        placeholder="Write a comment..."
+    />
+    <span className="character-count">
+        {newComment.length}/{MAX_COMMENT_LENGTH}
+    </span>
+</div>
       <h3 className="comment-section-title">Comments</h3>
       <h3 className="comment-section-title">
         Comments ({comments.length})
