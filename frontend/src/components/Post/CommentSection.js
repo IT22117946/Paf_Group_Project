@@ -117,6 +117,22 @@ const CommentSection = ({ postId }) => {
     });
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!postId) return;
+    setIsLoading(true);
+    getComments(postId)
+      .then((response) => {
+        setComments(Array.isArray(response) ? response : []);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError('Failed to load comments.');
+        setIsLoading(false);
+      });
+  }, [postId]);
+
   const cancelEditing = () => {
     setEditingComment(null);
     setEditForm({ content: '' });
