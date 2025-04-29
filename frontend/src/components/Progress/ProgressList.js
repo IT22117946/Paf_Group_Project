@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPlus, FaUser, FaEdit, FaTrash } from 'react-icons/fa';
-import { getProgress, deleteProgressUpdate, updateProgress } from '../services/api';
+import {
+  getProgress,
+  deleteProgressUpdate,
+  updateProgress,
+} from '../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 import './ProgressList.css';
 import axios from 'axios';
@@ -14,7 +18,7 @@ const ProgressList = () => {
   const [editingProgress, setEditingProgress] = useState(null);
   const [editForm, setEditForm] = useState({
     content: '',
-    templateType: ''
+    templateType: '',
   });
 
   useEffect(() => {
@@ -22,10 +26,10 @@ const ProgressList = () => {
       try {
         setLoading(true);
         const response = await getProgress();
-        const updatesWithDetails = response.data.map(update => ({
+        const updatesWithDetails = response.data.map((update) => ({
           ...update,
           userName: update.userName || 'Anonymous',
-          userProfileImage: update.userProfileImage || null
+          userProfileImage: update.userProfileImage || null,
         }));
         setUpdates(updatesWithDetails);
       } catch (err) {
@@ -41,13 +45,15 @@ const ProgressList = () => {
   }, []);
 
   const handleDeleteProgress = async (progressId) => {
-    if (!window.confirm('Are you sure you want to delete this progress update?')) {
+    if (
+      !window.confirm('Are you sure you want to delete this progress update?')
+    ) {
       return;
     }
 
     try {
       await deleteProgressUpdate(progressId, user.id);
-      setUpdates(updates.filter(update => update.id !== progressId));
+      setUpdates(updates.filter((update) => update.id !== progressId));
     } catch (err) {
       setError('Failed to delete progress update: ' + err.message);
     }
@@ -66,15 +72,21 @@ const ProgressList = () => {
         return;
       }
 
-      const response = await updateProgress(progressId, {
-        content: editForm.content,
-        templateType: editForm.templateType
-      }, userId);
-      
+      const response = await updateProgress(
+        progressId,
+        {
+          content: editForm.content,
+          templateType: editForm.templateType,
+        },
+        userId
+      );
+
       if (response) {
-        setUpdates(updates.map(update => 
-          update.id === progressId ? response : update
-        ));
+        setUpdates(
+          updates.map((update) =>
+            update.id === progressId ? response : update
+          )
+        );
         setEditingProgress(null);
         setEditForm({ content: '', templateType: '' });
       } else {
@@ -90,7 +102,7 @@ const ProgressList = () => {
     setEditingProgress(update.id);
     setEditForm({
       content: update.content,
-      templateType: update.templateType
+      templateType: update.templateType,
     });
   };
 
@@ -100,7 +112,9 @@ const ProgressList = () => {
   };
 
   if (loading) {
-    return <div className="progress-list-container">Loading progress updates...</div>;
+    return (
+      <div className="progress-list-container">Loading progress updates...</div>
+    );
   }
 
   return (
@@ -114,17 +128,19 @@ const ProgressList = () => {
       </div>
       {error && <p className="progress-list-error">{error}</p>}
       {!loading && updates.length === 0 ? (
-        <p className="no-updates">No progress updates available. Share your progress now!</p>
+        <p className="no-updates">
+          No progress updates available. Share your progress now!
+        </p>
       ) : (
         <div className="progress-list">
-          {updates.map(update => (
+          {updates.map((update) => (
             <div key={update.id} className="progress-card">
               <div className="progress-user-info">
                 <div className="user-profile">
                   {update.userProfileImage ? (
-                    <img 
-                      src={update.userProfileImage} 
-                      alt={update.userName} 
+                    <img
+                      src={update.userProfileImage}
+                      alt={update.userName}
                       className="profile-image"
                     />
                   ) : (
@@ -134,13 +150,13 @@ const ProgressList = () => {
                 </div>
                 {user && update.userId === user.id && (
                   <div className="progress-actions-owner">
-                    <button 
+                    <button
                       className="edit-btn"
                       onClick={() => startEditing(update)}
                     >
                       <FaEdit />
                     </button>
-                    <button 
+                    <button
                       className="delete-btn"
                       onClick={() => handleDeleteProgress(update.id)}
                     >
@@ -153,7 +169,9 @@ const ProgressList = () => {
                 <div className="edit-form">
                   <select
                     value={editForm.templateType}
-                    onChange={(e) => setEditForm({ ...editForm, templateType: e.target.value })}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, templateType: e.target.value })
+                    }
                     className="edit-input"
                   >
                     <option value="GENERAL">General Update</option>
@@ -163,21 +181,20 @@ const ProgressList = () => {
                   </select>
                   <textarea
                     value={editForm.content}
-                    onChange={(e) => setEditForm({ ...editForm, content: e.target.value })}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, content: e.target.value })
+                    }
                     placeholder="Share your progress..."
                     className="edit-textarea"
                   />
                   <div className="edit-actions">
-                    <button 
+                    <button
                       className="save-btn"
                       onClick={() => handleEditProgress(update.id)}
                     >
                       Save
                     </button>
-                    <button 
-                      className="cancel-btn"
-                      onClick={cancelEditing}
-                    >
+                    <button className="cancel-btn" onClick={cancelEditing}>
                       Cancel
                     </button>
                   </div>
@@ -189,7 +206,8 @@ const ProgressList = () => {
                     <strong>Type:</strong> {update.templateType}
                   </p>
                   <p className="progress-date">
-                    <strong>Posted:</strong> {new Date(update.createdAt).toLocaleString()}
+                    <strong>Posted:</strong>{' '}
+                    {new Date(update.createdAt).toLocaleString()}
                   </p>
                 </div>
               )}
