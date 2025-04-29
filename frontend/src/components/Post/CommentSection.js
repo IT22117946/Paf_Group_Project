@@ -278,6 +278,21 @@ const handleAddComment = async () => {
         <span className="empty-state-icon">💭</span>
     </div>
 )}
+
+
+const CommentSectionHeader = ({ count, isLoading }) => {
+    return (
+        <div className="comment-section-header">
+            <h3>Comments ({count})</h3>
+            <div className="comment-filters">
+                <select onChange={(e) => setSortOrder(e.target.value)}>
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+            </div>
+        </div>
+    );
+};
       <div className="comment-input-group">
         <input
           value={newComment}
