@@ -270,6 +270,14 @@ const handleAddComment = async () => {
           ))}
         </div>
       )}
+
+
+      {comments.length === 0 && !isLoading && (
+    <div className="no-comments">
+        <p>Be the first to comment on this post!</p>
+        <span className="empty-state-icon">💭</span>
+    </div>
+)}
       <div className="comment-input-group">
         <input
           value={newComment}
