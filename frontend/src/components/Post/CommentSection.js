@@ -188,6 +188,14 @@ const updateEditHistory = (commentId) => {
         [commentId]: [...(prev[commentId] || []), new Date()]
     }));
 };
+
+const [parentCommentId, setParentCommentId] = useState(null);
+
+const handleReply = (commentId) => {
+    setParentCommentId(commentId);
+    setNewComment(`@${comments.find(c => c.id === commentId).userName} `);
+};
+
   return (
     <div className="comment-section">
 
