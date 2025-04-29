@@ -72,6 +72,19 @@
     border-left: 4px solid #dc3545;
     border-radius: 4px;
 }
+.comment-reply {
+    margin-left: 40px;
+    padding-left: 20px;
+    border-left: 2px solid #e2e8f0;
+}
+
+.reply-button {
+    font-size: 0.9rem;
+    color: #4a5568;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
 .comment-error {
   color: #dc3545;
