@@ -279,6 +279,18 @@ const handleAddComment = async () => {
     </div>
 )}
 
+const trackCommentInteraction = (type, commentId) => {
+    try {
+        analytics.track(`comment_${type}`, {
+            commentId,
+            postId,
+            userId: user?.id,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Analytics error:', error);
+    }
+};
 
 const CommentSectionHeader = ({ count, isLoading }) => {
     return (
