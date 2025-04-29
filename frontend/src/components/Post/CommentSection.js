@@ -157,12 +157,21 @@ const CommentSection = ({ postId }) => {
 
     const MAX_COMMENT_LENGTH = 500;
 
+
+    const [sortOrder, setSortOrder] = useState('newest');
+
+const sortedComments = [...comments].sort((a, b) => {
+    return sortOrder === 'newest' 
+        ? new Date(b.createdAt) - new Date(a.createdAt)
+        : new Date(a.createdAt) - new Date(b.createdAt);
+});
+
 const handleAddComment = async () => {
     if (newComment.length > MAX_COMMENT_LENGTH) {
         setError(`Comment cannot exceed ${MAX_COMMENT_LENGTH} characters`);
         return;
     }
-    
+
   const isCommentOwner = (comment) => {
     if (!user || !comment || !comment.userId) {
       return false;
