@@ -138,6 +138,18 @@ const CommentSection = ({ postId }) => {
     setEditForm({ content: '' });
   };
 
+  const formatTimestamp = (date) => {
+    const now = new Date();
+    const commentDate = new Date(date);
+    const diffTime = Math.abs(now - commentDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    return commentDate.toLocaleDateString();
+  };
+
   const isCommentOwner = (comment) => {
     if (!user || !comment || !comment.userId) {
       return false;
