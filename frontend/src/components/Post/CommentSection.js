@@ -161,6 +161,10 @@ const CommentSection = ({ postId }) => {
   return (
     <div className="comment-section">
       <h3 className="comment-section-title">Comments</h3>
+      <h3 className="comment-section-title">
+        Comments ({comments.length})
+        {isLoading && <span className="loading-spinner">Loading...</span>}
+      </h3>
       {error && <p className="comment-error">{error}</p>}
       {comments.length === 0 ? (
         <p className="no-comments">No comments yet. Be the first to comment!</p>
