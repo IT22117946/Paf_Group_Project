@@ -180,6 +180,14 @@ const handleAddComment = async () => {
     return currentUserId === comment.userId;
   };
 
+  const [editHistory, setEditHistory] = useState({});
+
+const updateEditHistory = (commentId) => {
+    setEditHistory(prev => ({
+        ...prev,
+        [commentId]: [...(prev[commentId] || []), new Date()]
+    }));
+};
   return (
     <div className="comment-section">
 
