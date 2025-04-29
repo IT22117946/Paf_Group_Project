@@ -117,11 +117,52 @@ const CommentSection = ({ postId }) => {
     });
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!postId) return;
+    setIsLoading(true);
+    getComments(postId)
+      .then((response) => {
+        setComments(Array.isArray(response) ? response : []);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError('Failed to load comments.');
+        setIsLoading(false);
+      });
+  }, [postId]);
+
   const cancelEditing = () => {
     setEditingComment(null);
     setEditForm({ content: '' });
   };
 
+  const formatTimestamp = (date) => {
+    const now = new Date();
+    const commentDate = new Date(date);
+    const diffTime = Math.abs(now - commentDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    return commentDate.toLocaleDateString();
+  };
+
+  const handleEditComment = async (commentId) => {
+    if (!window.confirm('Are you sure you want to edit this comment?')) {
+        return;
+    }
+
+    const MAX_COMMENT_LENGTH = 500;
+
+const handleAddComment = async () => {
+    if (newComment.length > MAX_COMMENT_LENGTH) {
+        setError(`Comment cannot exceed ${MAX_COMMENT_LENGTH} characters`);
+        return;
+    }
+    
   const isCommentOwner = (comment) => {
     if (!user || !comment || !comment.userId) {
       return false;
@@ -133,6 +174,10 @@ const CommentSection = ({ postId }) => {
   return (
     <div className="comment-section">
       <h3 className="comment-section-title">Comments</h3>
+      <h3 className="comment-section-title">
+        Comments ({comments.length})
+        {isLoading && <span className="loading-spinner">Loading...</span>}
+      </h3>
       {error && <p className="comment-error">{error}</p>}
       {comments.length === 0 ? (
         <p className="no-comments">No comments yet. Be the first to comment!</p>
