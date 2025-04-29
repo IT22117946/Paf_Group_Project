@@ -154,6 +154,14 @@ const CommentSection = ({ postId }) => {
     if (!window.confirm('Are you sure you want to edit this comment?')) {
         return;
     }
+
+    const MAX_COMMENT_LENGTH = 500;
+
+const handleAddComment = async () => {
+    if (newComment.length > MAX_COMMENT_LENGTH) {
+        setError(`Comment cannot exceed ${MAX_COMMENT_LENGTH} characters`);
+        return;
+    }
     
   const isCommentOwner = (comment) => {
     if (!user || !comment || !comment.userId) {
