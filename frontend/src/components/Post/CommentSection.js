@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { getComments, addComment, updateComment, deleteComment } from '../services/api';
+import {
+  getComments,
+  addComment,
+  updateComment,
+  deleteComment,
+} from '../services/api';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import './CommentSection.css'; // Import the CSS file
 
@@ -11,18 +16,18 @@ const CommentSection = ({ postId }) => {
   const [error, setError] = useState(null);
   const [editingComment, setEditingComment] = useState(null);
   const [editForm, setEditForm] = useState({
-    content: ''
+    content: '',
   });
 
   useEffect(() => {
     if (!postId) return; // Don't fetch if postId is undefined
-    
+
     getComments(postId)
-      .then(response => {
+      .then((response) => {
         // The response is already the array of comments
         setComments(Array.isArray(response) ? response : []);
       })
-      .catch(err => {
+      .catch((err) => {
         setError('Failed to load comments.');
         console.error('Error fetching comments:', err);
         setComments([]); // Reset to empty array on error
@@ -71,7 +76,7 @@ const CommentSection = ({ postId }) => {
       setError(null);
       const updatedComments = await getComments(postId);
       setComments(Array.isArray(updatedComments) ? updatedComments : []);
-      
+
       // Show success message
       const successMessage = document.createElement('div');
       successMessage.className = 'success-message';
@@ -91,8 +96,8 @@ const CommentSection = ({ postId }) => {
 
     try {
       await deleteComment(commentId);
-      setComments(comments.filter(comment => comment.id !== commentId));
-      
+      setComments(comments.filter((comment) => comment.id !== commentId));
+
       // Show success message
       const successMessage = document.createElement('div');
       successMessage.className = 'success-message';
@@ -108,7 +113,7 @@ const CommentSection = ({ postId }) => {
   const startEditing = (comment) => {
     setEditingComment(comment.id);
     setEditForm({
-      content: comment.content
+      content: comment.content,
     });
   };
 
@@ -133,27 +138,30 @@ const CommentSection = ({ postId }) => {
         <p className="no-comments">No comments yet. Be the first to comment!</p>
       ) : (
         <div className="comments-list">
-          {comments.map(comment => (
+          {comments.map((comment) => (
             <div key={comment.id} className="comment-item">
               <div className="comment-header">
                 <div className="comment-user-info">
-                  <img 
-                    src={comment.userProfileImage || 'https://via.placeholder.com/40'} 
-                    alt={comment.userName} 
+                  <img
+                    src={
+                      comment.userProfileImage ||
+                      'https://via.placeholder.com/40'
+                    }
+                    alt={comment.userName}
                     className="comment-user-avatar"
                   />
                   <span className="comment-user-name">{comment.userName}</span>
                 </div>
                 {isCommentOwner(comment) && (
                   <div className="comment-actions">
-                    <button 
+                    <button
                       className="edit-btn"
                       onClick={() => startEditing(comment)}
                       title="Edit comment"
                     >
                       <FaEdit />
                     </button>
-                    <button 
+                    <button
                       className="delete-btn"
                       onClick={() => handleDeleteComment(comment.id)}
                       title="Delete comment"
@@ -167,21 +175,20 @@ const CommentSection = ({ postId }) => {
                 <div className="edit-form">
                   <textarea
                     value={editForm.content}
-                    onChange={(e) => setEditForm({ ...editForm, content: e.target.value })}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, content: e.target.value })
+                    }
                     placeholder="Edit your comment..."
                     className="edit-textarea"
                   />
                   <div className="edit-actions">
-                    <button 
+                    <button
                       className="save-btn"
                       onClick={() => handleEditComment(comment.id)}
                     >
                       Save
                     </button>
-                    <button 
-                      className="cancel-btn"
-                      onClick={cancelEditing}
-                    >
+                    <button className="cancel-btn" onClick={cancelEditing}>
                       Cancel
                     </button>
                   </div>
@@ -199,13 +206,13 @@ const CommentSection = ({ postId }) => {
       <div className="comment-input-group">
         <input
           value={newComment}
-          onChange={e => setNewComment(e.target.value)}
-          placeholder={user ? "Add a comment..." : "Please login to comment"}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder={user ? 'Add a comment...' : 'Please login to comment'}
           className="comment-input"
           disabled={!user}
         />
-        <button 
-          onClick={handleAddComment} 
+        <button
+          onClick={handleAddComment}
           className="comment-btn"
           disabled={!user || !newComment.trim()}
         >
