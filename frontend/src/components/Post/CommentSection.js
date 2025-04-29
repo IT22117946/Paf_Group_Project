@@ -196,6 +196,17 @@ const handleReply = (commentId) => {
     setNewComment(`@${comments.find(c => c.id === commentId).userName} `);
 };
 
+const errorMessages = {
+    'network': 'Unable to connect. Please check your internet connection.',
+    'auth': 'You must be logged in to comment.',
+    'rate-limit': 'Please wait a moment before posting another comment.',
+    'content': 'Comment contains inappropriate content.'
+};
+
+const handleError = (error) => {
+    setError(errorMessages[error.type] || 'An unexpected error occurred');
+};
+
   return (
     <div className="comment-section">
 
