@@ -150,6 +150,11 @@ const CommentSection = ({ postId }) => {
     return commentDate.toLocaleDateString();
   };
 
+  const handleEditComment = async (commentId) => {
+    if (!window.confirm('Are you sure you want to edit this comment?')) {
+        return;
+    }
+    
   const isCommentOwner = (comment) => {
     if (!user || !comment || !comment.userId) {
       return false;
