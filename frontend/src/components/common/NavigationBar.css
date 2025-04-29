@@ -1,0 +1,112 @@
+.navigation-bar {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.8rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #2563eb;
+  font-size: 1.5rem;
+  font-weight: 600;
+  gap: 0.5rem;
+}
+
+.brand-icon {
+  font-size: 1.8rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: #64748b;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background-color: #f1f5f9;
+  color: #2563eb;
+}
+
+.nav-link.active {
+  background-color: #e0e7ff;
+  color: #2563eb;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.logout-button:hover {
+  color: #dc2626;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .nav-link span {
+    display: none;
+  }
+  
+  .nav-link {
+    padding: 0.5rem;
+  }
+  
+  .nav-logo span {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .navigation-bar {
+    padding: 0.8rem 1rem;
+  }
+  
+  .nav-links {
+    gap: 0.5rem;
+  }
+  
+  .nav-link {
+    padding: 0.4rem;
+  }
+}
+
+/* Add margin to main content to account for fixed navbar */
+.content {
+  margin-top: 4rem;
+  padding: 2rem;
+} 
