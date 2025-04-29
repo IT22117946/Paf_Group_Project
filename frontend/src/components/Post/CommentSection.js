@@ -180,6 +180,14 @@ const handleAddComment = async () => {
     return currentUserId === comment.userId;
   };
 
+  const [editHistory, setEditHistory] = useState({});
+
+const updateEditHistory = (commentId) => {
+    setEditHistory(prev => ({
+        ...prev,
+        [commentId]: [...(prev[commentId] || []), new Date()]
+    }));
+};
   return (
     <div className="comment-section">
 
@@ -270,6 +278,41 @@ const handleAddComment = async () => {
           ))}
         </div>
       )}
+
+
+      {comments.length === 0 && !isLoading && (
+    <div className="no-comments">
+        <p>Be the first to comment on this post!</p>
+        <span className="empty-state-icon">💭</span>
+    </div>
+)}
+
+const trackCommentInteraction = (type, commentId) => {
+    try {
+        analytics.track(`comment_${type}`, {
+            commentId,
+            postId,
+            userId: user?.id,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Analytics error:', error);
+    }
+};
+
+const CommentSectionHeader = ({ count, isLoading }) => {
+    return (
+        <div className="comment-section-header">
+            <h3>Comments ({count})</h3>
+            <div className="comment-filters">
+                <select onChange={(e) => setSortOrder(e.target.value)}>
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+            </div>
+        </div>
+    );
+};
       <div className="comment-input-group">
         <input
           value={newComment}
