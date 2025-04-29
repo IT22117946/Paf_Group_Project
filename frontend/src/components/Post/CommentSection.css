@@ -90,6 +90,19 @@
     opacity: 0;
     animation: fadeIn 0.5s ease-out forwards;
 }
+.comment-item {
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.comment-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
