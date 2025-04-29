@@ -11,16 +11,16 @@ const ProgressForm = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     content: '',
-    templateType: 'GENERAL'
+    templateType: 'GENERAL',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [progressUpdates, setProgressUpdates] = useState([]);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setError('');
-  //   setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
     if (!user) {
       setError('You must be logged in to create a progress update');
@@ -36,19 +36,23 @@ const ProgressForm = () => {
     }
 
     try {
-      await axios.post('http://localhost:8081/api/progress', 
+      await axios.post(
+        'http://localhost:8081/api/progress',
         { ...formData },
         {
           params: { userId },
           withCredentials: true,
           headers: {
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+          },
         }
       );
       navigate('/progress');
     } catch (error) {
-      setError('Failed to create progress update: ' + (error.response?.data?.message || error.message));
+      setError(
+        'Failed to create progress update: ' +
+          (error.response?.data?.message || error.message)
+      );
       console.error('Error creating progress update:', error);
     } finally {
       setLoading(false);
@@ -58,7 +62,7 @@ const ProgressForm = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -68,7 +72,7 @@ const ProgressForm = () => {
         console.error('User not authenticated');
         return;
       }
-      
+
       await deleteProgressUpdate(progressId, user.sub);
       toast.success('Progress update deleted successfully');
       navigate('/progress');
@@ -79,7 +83,11 @@ const ProgressForm = () => {
   };
 
   if (!user) {
-    return <div className="error-message">Please log in to create a progress update.</div>;
+    return (
+      <div className="error-message">
+        Please log in to create a progress update.
+      </div>
+    );
   }
 
   return (
