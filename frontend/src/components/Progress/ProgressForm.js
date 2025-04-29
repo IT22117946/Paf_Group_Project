@@ -17,10 +17,10 @@ const ProgressForm = () => {
   const [loading, setLoading] = useState(false);
   const [progressUpdates, setProgressUpdates] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setError('');
+  //   setLoading(true);
 
     if (!user) {
       setError('You must be logged in to create a progress update');
