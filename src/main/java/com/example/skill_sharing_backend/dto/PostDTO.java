@@ -1,3 +1,4 @@
+//post dto
 package com.example.skill_sharing_backend.dto;
 
 import java.util.Map;
