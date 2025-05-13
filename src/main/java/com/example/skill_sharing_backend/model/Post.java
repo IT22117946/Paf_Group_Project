@@ -1,3 +1,4 @@
+//post model
 package com.example.skill_sharing_backend.model;
 
 import java.time.LocalDateTime;
